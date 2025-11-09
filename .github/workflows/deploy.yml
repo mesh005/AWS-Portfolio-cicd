@@ -14,9 +14,4 @@ jobs:
         aws_site_bucket_name: ${{ secrets.AWS_S3_BUCKET }}
         aws_access_key_id: ${{ secrets.AWS_ACCESS_KEY_ID }}
         aws_secret_access_key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-        aws_site_root_object: "index.html"
         aws_default_region: eu-west-2
-        aws_site_source_folder: website
-
-        tf_action: 'apply'
-        tf_state_bucket_destroy: false
