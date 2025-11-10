@@ -1,21 +1,23 @@
 name: Basic deploy
 on:
   push:
-    branches: [ main ]
+    branches:
+      - main
 
 jobs:
   Deploy-static-site:
     runs-on: ubuntu-latest
 
     steps:
-    - name: Create deploy-bucket
-      uses: bitovi/github-actions-deploy-static-site-to-aws@v0.2.7
-      with:
-        aws_site_bucket_name: ${{ secrets.AWS_S3_BUCKET }}
-        aws_access_key_id: ${{ secrets.AWS_ACCESS_KEY_ID }}
-        aws_secret_access_key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-        aws_default_region: eu-west-2
-        aws_site_source_folder: website
+      - name: Checkout code
+        uses: actions/checkout@v4
 
-        aws_site_cdn_enabled: false
-        
+      - name: Deploy static site to S3
+        uses: bitovi/github-actions-deploy-static-site-to-aws@v0.2.7
+        with:
+          aws_site_bucket_name: ${{ secrets.AWS_S3_BUCKET }}      # your existing bucket name
+          aws_access_key_id:     ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws_secret_access_key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws_default_region:    eu-west-2                      # your region
+          aws_site_source_folder: website                      # folder containing your site files
+          aws_site_cdn_enabled: false                           # disable CDN if not needed
