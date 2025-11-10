@@ -1,6 +1,8 @@
 variable "bucket_name" {
-  description = "static-portfolio-bucket-eu"
+  description = "Name of the existing S3 bucket"
   type        = string
+  default     = "
+static-portfolio-bucket-eu"
 }
 
 variable "aws_region" {
