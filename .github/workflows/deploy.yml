@@ -1,23 +1,26 @@
-name: Basic deploy
+name: Upload Portfolio
+
 on:
   push:
     branches:
       - main
 
 jobs:
-  Deploy-static-site:
+  deploy:
     runs-on: ubuntu-latest
-
     steps:
-      - name: Checkout code
+      - name: Checkout Repository
         uses: actions/checkout@v4
 
-      - name: Deploy static site to S3
-        uses: bitovi/github-actions-deploy-static-site-to-aws@v0.2.7
+      - name: Sync Files to S3
+        uses: jakejarvis/s3-sync-action@master
         with:
-          aws_site_bucket_name: ${{ secrets.AWS_S3_BUCKET }}      # your existing bucket name
-          aws_access_key_id:     ${{ secrets.AWS_ACCESS_KEY_ID }}
-          aws_secret_access_key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          aws_default_region:    eu-west-2                      # your region
-          aws_site_source_folder: website                      # folder containing your site files
-          aws_site_cdn_enabled: false                           # disable CDN if not needed
+          args: --acl public-read --follow-symlinks --delete
+        env:
+          AWS_S3_BUCKET: ${{ secrets.AWS_S3_BUCKET }}
+          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          AWS_REGION: ${{ secrets.AWS_REGION }}
+          SOURCE_DIR: 'website'  # Change if your files are in a different directory
+
+      
