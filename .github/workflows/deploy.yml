@@ -19,3 +19,5 @@ jobs:
         
         tf_action: 'apply'
         tf_state_bucket_destroy: false 
+    env:
+      ACTIONS_STEP_DEBUG: true
