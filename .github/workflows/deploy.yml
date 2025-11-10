@@ -21,7 +21,4 @@ jobs:
         tf_state_bucket_destroy: false
 
         aws_site_cdn_enabled: false
-        aws_r53_domain_name: example.com 
-        aws_r53_sub_domain_name: site
-        aws_r53_create_sub_cert: true
         
