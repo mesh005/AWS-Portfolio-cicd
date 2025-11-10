@@ -17,8 +17,5 @@ jobs:
         aws_default_region: eu-west-2
         aws_site_source_folder: website
 
-        tf_action: 'apply'
-        tf_state_bucket_destroy: false
-
         aws_site_cdn_enabled: false
         
