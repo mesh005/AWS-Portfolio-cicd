@@ -1,6 +1,13 @@
 # Terraform files to ignore
 .terraform/
-terraform.tfstate
+*.tfstate
+*.tfstate.*
+terraform.tfvars
 .terraform.lock.hcl
+terraform/
+
+# Environment / config
+.env
+
 
 
