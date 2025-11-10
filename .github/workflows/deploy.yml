@@ -12,7 +12,6 @@ jobs:
       uses: bitovi/github-actions-deploy-static-site-to-aws@v0.2.7
       with:
         aws_site_bucket_name: ${{ secrets.AWS_S3_BUCKET }}
-        aws_site_create_bucket: false
         aws_access_key_id: ${{ secrets.AWS_ACCESS_KEY_ID }}
         aws_secret_access_key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
         aws_default_region: eu-west-2
