@@ -1,26 +1,22 @@
-name: Upload Portfolio
-
+name: Basic deploy
 on:
   push:
-    branches:
-      - main
+    branches: [ main ]
 
 jobs:
-  deploy:
+  Deploy-static-site:
     runs-on: ubuntu-latest
+
     steps:
-      - name: Checkout Repository
-        uses: actions/checkout@v4
+    - name: Create deploy-bucket
+      uses: bitovi/github-actions-deploy-static-site-to-aws@v0.2.7
+      with:
+        aws_access_key_id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+        aws_secret_access_key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+        aws_default_region: ${{ secrets.AWS_REGION }}
 
-      - name: Sync Files to S3
-        uses: jakejarvis/s3-sync-action@master
-        with:
-          args: --acl public-read --follow-symlinks --delete
-        env:
-          AWS_S3_BUCKET: ${{ secrets.AWS_S3_BUCKET }}
-          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
-          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          AWS_REGION: ${{ secrets.AWS_REGION }}
-          SOURCE_DIR: 'website'  # Change if your files are in a different directory
-
-      
+        aws_site_bucket_name: static-portfolio-bucket-eu
+        aws_site_source_folder: website
+        
+        aws_site_cdn_enabled: true
+        aws_site_cdn_aliases: d1f3x4a9mocanm.cloudfront.net
