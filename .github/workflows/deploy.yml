@@ -1,22 +1,30 @@
-name: Basic deploy
-on:
-  push:
-    branches: [ main ]
-
+name: Example workflow for S3 Deploy
+on: [push]
 jobs:
-  Deploy-static-site:
+  run:
     runs-on: ubuntu-latest
-
+    env:
+      AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+      AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
     steps:
-    - name: Create deploy-bucket
-      uses: bitovi/github-actions-deploy-static-site-to-aws@v0.2.7
-      with:
-        aws_access_key_id: ${{ secrets.AWS_ACCESS_KEY_ID }}
-        aws_secret_access_key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-        aws_default_region: ${{ secrets.AWS_REGION }}
+      - uses: actions/checkout@v5
+        with:
+          persist-credentials: false
 
-        aws_site_bucket_name: static-portfolio-bucket-eu
-        aws_site_source_folder: website
-        
-        aws_site_cdn_enabled: true
-        aws_site_cdn_aliases: d1f3x4a9mocanm.cloudfront.net
+      - name: Install dependencies
+        run: yarn
+
+      - name: Build
+        run: yarn build
+
+      - name: Deploy
+        uses: reggionick/s3-deploy@v4
+        with:
+          folder: build
+          bucket: static-portfolio-bucket-eu
+          bucket-region: ${{ secrets.AWS_REGION }}
+          dist-id: EA0RZQS9R6YM
+          invalidation: /
+          delete-removed: true
+          no-cache: true
+          private: true
