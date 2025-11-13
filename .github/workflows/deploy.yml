@@ -17,9 +17,8 @@ jobs:
           folder: website
           bucket: static-portfolio-bucket-eu
           bucket-region: ${{ secrets.AWS_REGION }}
-          dist-id: EA0RZQS9R6YM
+          dist-id: ${{ secrets.CLOUDFRONT_DISTRIBUTION_ID }}
           invalidation: /
           delete-removed: true
           no-cache: true
           private: true
-          files-to-include: '{.*/**,**}'
